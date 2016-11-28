@@ -1,9 +1,9 @@
 // Firebase obtained from the global context
 
 const config = {
-  apiKey: 'YOUR_API_KEY_HERE',
-  authDomain: 'YOUR_APP_NAME.firebaseapp.com',
-  databaseURL: 'https://YOUR_APP_NAME.firebaseio.com',
+  apiKey: 'AIzaSyD6Q-Kd49j33K_pKcuiVV_YxNgvxT1iZvQ',
+  authDomain: 'avalon-16347.firebaseapp.com',
+  databaseURL: 'https://avalon-16347.firebaseio.com',
   storageBucket: '',
   messagingSenderId: 'YOUR_MESSAGING_ID'
 };
