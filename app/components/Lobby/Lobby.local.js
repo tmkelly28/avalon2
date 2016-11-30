@@ -8,23 +8,23 @@ export default class LobbyLocal extends Component {
 		super(props);
 
 		this.methods = {
-			handleNewRoom: this.handleNewRoom.bind(this),
-			handleJoinRoom: this.handleJoinRoom.bind(this),
-			handleStartGame: this.handleStartGame.bind(this)
+			handleNewGame: this.handleNewGame.bind(this),
+			handleJoinGame: this.handleJoinGame.bind(this)
+			// handleStartGame: this.handleStartGame.bind(this)
 		};
 	}
 
-	handleNewRoom() {
-		this.props.newGame();
+	handleNewGame() {
+		this.props.createGame();
 	}
 
-	handleJoinRoom(gameId) {
-		this.props.joinGame(gameId);
+	handleJoinGame(gameId) {
+		this.props.updateGame(gameId);
 	}
 
-	handleStartGame(gameId, playerCount) {
-		this.props.startGame(gameId, playerCount);
-	}
+	// handleStartGame(gameId, playerCount) {
+	// 	this.props.startGame(gameId, playerCount);
+	// }
 
 	render() {
 		return <LobbyView

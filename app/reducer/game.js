@@ -1,54 +1,92 @@
 'use strict';
 
-const START_GAME = 'START_GAME';
+// const START_GAME = 'START_GAME';
 const ADD_PLAYER = 'ADD_PLAYER';
-const DEFAULT = {};
+const DEFAULT_GAME = {
+	key: '',
+	host: '',
+	players: [],
+	questNum: 0,
+	questFailVotes: 0,
+	successes: 0,
+	failures: 0,
+	loyal: '',
+	minion: '',
+	merlin: '',
+	percival: '',
+	mordred: '',
+	morgana: '',
+	oberon: '',
+	assassin: '',
+	guessedMerlin: ''
+};
 
 import db from '../db';
 
-export const startGame = (gameId, playerCount) => ({
-	type: START_GAME,
+export const addPlayer = (gameStats) => ({
+	type: ADD_PLAYER,
 	stats: {
-		gameId,		// figure out how/where to generate this and pass it
-		playerCount
+		game: gameStats
 	}
 });
 
-const generateGameId = () => {
-	const length = 7,
-		charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-	let gameId = '';
-	for (let i = 0; i < length; i++) {
-		gameId += charset.charAt(Math.floor(Math.random() * charset.length));
+// export const joinGame = (gameId, players) => ({
+// 	type: ADD_PLAYER,
+// 	stats: {
+// 		gameId
+// 	}
+// });
+
+// export const startGame = (gameId) => ({
+// 	type: START_GAME,
+// 	stats: {
+// 		game: {
+// 			gameId
+// 		}
+// 	}
+// });
+
+// const generateGameId = () => {
+// 	const length = 7,
+// 		charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+// 	let gameId = '';
+// 	for (let i = 0; i < length; i++) {
+// 		gameId += charset.charAt(Math.floor(Math.random() * charset.length));
+// 	}
+// 	return gameId;
+// };
+
+// create new game instance in db
+export const createGame = user => 
+	dispatch => {
+		const newGameObj = {
+			host: user,
+			players: [user]
+		};
+		db.ref('games').push(Object.assign({}, DEFAULT_GAME, newGameObj))
+		.then(newGameRef => {
+			dispatch(addPlayer(newGameRef));
+		})
+		.catch(err => console.error(err));
 	}
-	return gameId;
-}
 
-export const newGame = () => ({
-	type: ADD_PLAYER,
-	stats: {
-		gameId: generateGameId(),
-		playerCount: 1
+export const updateGame = (user, gameId) =>
+	dispatch => {
+		db.ref(`games/${gameId}`).on('value', snapshot => {
+			snapshot.update({
+				players: snapshot.players.push(user)
+			})
+			.then(updatedGame => {
+				dispatch(addPlayer(updatedGame))
+			})
+			.catch(err => console.error(err));
+		})
 	}
-})
 
-// have thunk middleware + regular reducer for this
-// call db >> call joinGame to update state
-export const joinGame = gameId =>
-	// use gameId to get game from db, join, playerCount++
-
-	({
-		type: ADD_PLAYER,
-		stats: {
-			gameId,
-			playerCount
-		}
-	});
-
-export default (state = DEFAULT, action) => {
+export default (state = DEFAULT_GAME, action) => {
 	switch (action.type) {
-		case START_GAME: 	// ASK OMRI ABOUT THIS SYNTAX
-			return Object.assign({}, state, action.stats);	// will likely have more state to deal with
+		// case START_GAME:
+		// 	return Object.assign({}, state, action.stats);
 		case ADD_PLAYER: 
 			return Object.assign({}, state, action.stats);
 		default: return state;
