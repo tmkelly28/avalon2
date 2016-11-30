@@ -1,3 +1,5 @@
+'use strict';
+
 const RECEIVE_USER = 'RECEIVE_USER';
 const REMOVE_USER = 'REMOVE_USER';
 const DEFAULT = {};

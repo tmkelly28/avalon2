@@ -1,15 +1,16 @@
+'use strict';
+
 import React from 'react';
+import Link from 'react-router';
 
 export default ({
   handleJoin,
   handleChange,
-  handleLogOut,
   email,
-  pwd,
-  user
+  pwd
 }) => (
   <form>
-    <h3>{ user.email }</h3>
+    {/* add a form section for displayName?? */}
     <div className="form-group">
       <label htmlFor="email">Email</label>
       <input
@@ -30,14 +31,8 @@ export default ({
         placeholder='Password'
         onChange={handleChange} />
     </div>
-    {
-      user.email ?
-      <button className="btn" onClick={handleLogOut}>
-        Log Out
-      </button> :
       <button className="btn btn-primary" onClick={handleJoin}>
-        Login
+        <Link to="/begin">Login</Link>
       </button>
-    }
   </form>
 );
