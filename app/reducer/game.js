@@ -1,11 +1,13 @@
 'use strict';
 
+import db from '../db';
+
 // const START_GAME = 'START_GAME';
 const ADD_PLAYER = 'ADD_PLAYER';
 const DEFAULT_GAME = {
 	id: '',
 	host: '',
-	players: [],
+	players: {},
 	questNum: 0,
 	questFailVotes: 0,
 	successes: 0,
@@ -21,8 +23,6 @@ const DEFAULT_GAME = {
 	guessedMerlin: ''
 };
 
-import db from '../db';
-
 export const addPlayer = (gameStats) => ({
 	type: ADD_PLAYER,
 	game: gameStats
@@ -32,7 +32,12 @@ export const createGame = user =>
 	dispatch => {
 		let newGameObj = {
 			host: user,
-			players: [user]
+			players: {}
+		};
+		newGameObj.players[user.id] = {
+			displayName: user.displayName,
+			email: user.email,
+			host: true
 		};
 		const fullGame = Object.assign({}, DEFAULT_GAME, newGameObj);
 		const newGameRef = db.ref('games').push(fullGame)	// store new game in db
@@ -42,16 +47,20 @@ export const createGame = user =>
 
 export const updateGame = (user, gameId) =>
 	dispatch => {
-		db.ref(`games/${gameId}`).on('value', snapshot => {
-			snapshot.update({
-				players: snapshot.players.push(user)
-			})
-			.then(updatedGame => {
-				console.log('UPDATED GAME', updatedGame)
-				dispatch(addPlayer(updatedGame))
-			})
-			.catch(err => console.error(err));
+		const newPlayer = {
+			displayName: user.displayName,
+			email: user.email
+		};
+		const playersRef = db.ref(`games/${gameId}/players`);
+
+		playersRef.child(user.id).set(newPlayer)
+		.then(() => {
+			return db.ref(`games/${gameId}`).once('value')
 		})
+		.then(snapshot => {
+			return dispatch(addPlayer(snapshot.val()))
+		})
+		.catch(err => console.error(err));
 	}
 
 export default (state = DEFAULT_GAME, action) => {
@@ -59,7 +68,7 @@ export default (state = DEFAULT_GAME, action) => {
 		// case START_GAME:
 		// 	return Object.assign({}, state, action.stats);
 		case ADD_PLAYER: 
-			return action.game;
+			return Object.assign({}, state, action.game);
 		default: return state;
 	}
 }

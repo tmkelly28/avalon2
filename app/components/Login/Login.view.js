@@ -42,7 +42,7 @@ export default ({
         onChange={handleChange} />
     </div>
       <button className="btn btn-primary" onClick={handleJoin}>
-        <Link to="/begin">Login</Link>
+        <Link to="/begin">Login</Link> {/*this needs to be the whole button*/}
       </button>
   </form>
 );

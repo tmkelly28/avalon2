@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import LobbyView from './Lobby.view.js';
+import db from '../../db';
 
 export default class LobbyLocal extends Component {
 	constructor(props) {
@@ -16,7 +17,7 @@ export default class LobbyLocal extends Component {
 			handleJoinGame: this.handleJoinGame.bind(this),
 			// handleStartGame: this.handleStartGame.bind(this)
 			getNumPlayers: this.getNumPlayers.bind(this),
-			handleIdInput: this.handleIdInput.bind(this)
+			handleGameIdInput: this.handleGameIdInput.bind(this)
 		};
 	}
 
@@ -28,7 +29,7 @@ export default class LobbyLocal extends Component {
 		this.props.updateGame(user, gameId);
 	}
 
-	handleIdInput(evt) {
+	handleGameIdInput(evt) {
 		const value = evt.target.value;
 		this.setState({gameId: value});
 	}
@@ -36,6 +37,8 @@ export default class LobbyLocal extends Component {
 	getNumPlayers() {
 		return this.props.game.players.length;
 	}
+
+	// update when players join, listening to firebase >> will unmount when view changes
 
 	// handleStartGame(gameId, playerCount) {
 	// 	this.props.startGame(gameId, playerCount);

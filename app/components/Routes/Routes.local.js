@@ -7,11 +7,9 @@ export default class RoutesLocal extends Component {
     window.firebase.auth()
       .onAuthStateChanged(member => {
         if (member) {
-          const {displayName, email, photoUrl, uid} = member;
+          const {email, uid} = member;
           const gameUser = {
-            displayName,
             email,
-            photoUrl: photoUrl || null,
             id: uid
           }
           this.props.receiveUser(gameUser)

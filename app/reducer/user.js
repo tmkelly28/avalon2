@@ -17,7 +17,6 @@ export const removeUser = () =>
 export const logIn = credentials =>
   dispatch => {
     const { email, pwd, displayName, photoUrl } = credentials;
-    let closedOverUser;
 
     window.firebase
       .auth()
@@ -30,15 +29,13 @@ export const logIn = credentials =>
         } else throw err;
       })
       .then(user => {
-        closedOverUser = user;
         return user.updateProfile({
           displayName,
           photoUrl
         })
       })
-      .then(user => {
-        const { displayName, photoUrl } = closedOverUser;
-        return dispatch(receiveUser({ displayName, photoUrl }))
+      .then(() => {
+        return dispatch(receiveUser({ displayName, photoUrl: photoUrl || null }))
       })
       .catch(err => console.error(err));
   }

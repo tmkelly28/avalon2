@@ -25,7 +25,6 @@ export default class LoginLocal extends Component {
     const value = evt.target.value;
     const field = evt.target.name;
     this.setState({ [field]: value });
-    // console.log('STATE', this.state);
   }
 
   handleJoin (evt) {
