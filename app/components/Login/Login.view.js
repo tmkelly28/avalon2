@@ -1,15 +1,16 @@
+'use strict';
+
 import React from 'react';
+import { Link } from 'react-router';
 
 export default ({
   handleJoin,
   handleChange,
-  handleLogOut,
   email,
   pwd,
-  user
+  displayName
 }) => (
   <form>
-    <h3>{ user.email }</h3>
     <div className="form-group">
       <label htmlFor="email">Email</label>
       <input
@@ -18,6 +19,16 @@ export default ({
         value={email}
         type='text'
         placeholder='Enter email'
+        onChange={handleChange} />
+    </div>
+    <div className="form-group">
+      <label htmlFor="display-name">Display Name</label>
+      <input
+        name="displayName"
+        className="form-control"
+        value={displayName}
+        type='text'
+        placeholder='Enter display name'
         onChange={handleChange} />
     </div>
     <div className="form-group">
@@ -30,14 +41,8 @@ export default ({
         placeholder='Password'
         onChange={handleChange} />
     </div>
-    {
-      user.email ?
-      <button className="btn" onClick={handleLogOut}>
-        Log Out
-      </button> :
       <button className="btn btn-primary" onClick={handleJoin}>
-        Login
+        <Link to="/begin">Login</Link> {/*this needs to be the whole button*/}
       </button>
-    }
   </form>
 );

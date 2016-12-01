@@ -6,7 +6,7 @@ export default class Main extends Component {
   render () {
     return (
       <div className="container">
-        <h1>Hello React/Firebase</h1>
+        <h1>Avalon</h1>
         <Login />
       </div>
     );

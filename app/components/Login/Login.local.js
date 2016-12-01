@@ -1,3 +1,5 @@
+'use strict';
+
 import React, { Component } from 'react';
 import LoginView from './Login.view';
 
@@ -7,7 +9,9 @@ export default class LoginLocal extends Component {
     super(props);
     this.state = {
       email: '',
-      pwd: ''
+      displayName: '',
+      pwd: '',
+      photoUrl: ''
     };
 
     this.methods = {
