@@ -7,10 +7,10 @@ export default ({
   handleJoin,
   handleChange,
   email,
-  pwd
+  pwd,
+  displayName
 }) => (
   <form>
-    {/* add a form section for displayName?? */}
     <div className="form-group">
       <label htmlFor="email">Email</label>
       <input
@@ -19,6 +19,16 @@ export default ({
         value={email}
         type='text'
         placeholder='Enter email'
+        onChange={handleChange} />
+    </div>
+    <div className="form-group">
+      <label htmlFor="display-name">Display Name</label>
+      <input
+        name="displayName"
+        className="form-control"
+        value={displayName}
+        type='text'
+        placeholder='Enter display name'
         onChange={handleChange} />
     </div>
     <div className="form-group">

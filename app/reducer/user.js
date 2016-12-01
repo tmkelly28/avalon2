@@ -4,17 +4,20 @@ const RECEIVE_USER = 'RECEIVE_USER';
 const REMOVE_USER = 'REMOVE_USER';
 const DEFAULT = {};
 
-export const receiveUser = user => ({
-  type: RECEIVE_USER,
-  user
-});
+export const receiveUser = user => {
+  return ({
+    type: RECEIVE_USER,
+    user
+  })
+};
 
 export const removeUser = () =>
   ({ type: REMOVE_USER });
 
 export const logIn = credentials =>
   dispatch => {
-    const { email, pwd } = credentials;
+    const { email, pwd, displayName, photoUrl } = credentials;
+    let closedOverUser;
 
     window.firebase
       .auth()
@@ -25,6 +28,17 @@ export const logIn = credentials =>
             .auth()
             .signInWithEmailAndPassword(email, pwd);
         } else throw err;
+      })
+      .then(user => {
+        closedOverUser = user;
+        return user.updateProfile({
+          displayName,
+          photoUrl
+        })
+      })
+      .then(user => {
+        const { displayName, photoUrl } = closedOverUser;
+        return dispatch(receiveUser({ displayName, photoUrl }))
       })
       .catch(err => console.error(err));
   }
@@ -38,7 +52,7 @@ export const logOut = () =>
 
 export default (state = DEFAULT, action) => {
   switch (action.type) {
-    case RECEIVE_USER: return action.user;
+    case RECEIVE_USER: return Object.assign({}, state, action.user);
     case REMOVE_USER: return DEFAULT;
     default: return state;
   }

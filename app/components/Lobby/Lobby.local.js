@@ -7,19 +7,34 @@ export default class LobbyLocal extends Component {
 	constructor(props) {
 		super(props);
 
+		this.state = {
+			gameId: ''
+		}
+
 		this.methods = {
 			handleNewGame: this.handleNewGame.bind(this),
-			handleJoinGame: this.handleJoinGame.bind(this)
+			handleJoinGame: this.handleJoinGame.bind(this),
 			// handleStartGame: this.handleStartGame.bind(this)
+			getNumPlayers: this.getNumPlayers.bind(this),
+			handleIdInput: this.handleIdInput.bind(this)
 		};
 	}
 
-	handleNewGame() {
-		this.props.createGame();
+	handleNewGame(user) {
+		this.props.createGame(user);
 	}
 
-	handleJoinGame(gameId) {
-		this.props.updateGame(gameId);
+	handleJoinGame(user, gameId) {
+		this.props.updateGame(user, gameId);
+	}
+
+	handleIdInput(evt) {
+		const value = evt.target.value;
+		this.setState({gameId: value});
+	}
+
+	getNumPlayers() {
+		return this.props.game.players.length;
 	}
 
 	// handleStartGame(gameId, playerCount) {
@@ -28,7 +43,8 @@ export default class LobbyLocal extends Component {
 
 	render() {
 		return <LobbyView
-			{...this.props}		// from connect()
+			{...this.props}
+			{...this.state}
 			{...this.methods}
 		/>
 	}
