@@ -2,7 +2,7 @@
 
 import { connect } from 'react-redux';
 import LobbyLocal from './Lobby.local.js';
-import { createGame, updateGame } from '../../reducer/game.js';
+import { createGame, updateGame, addPlayer } from '../../reducer/game.js';
 
 export default connect(
 	// mapStateToProps
@@ -13,6 +13,8 @@ export default connect(
 		createGame: user =>
 			dispatch(createGame(user)),
 		updateGame: (user, gameId) =>
-			dispatch(updateGame(user, gameId))
+			dispatch(updateGame(user, gameId)),
+		addPlayer: game =>
+			dispatch(addPlayer(game))
 	})
 )(LobbyLocal);
