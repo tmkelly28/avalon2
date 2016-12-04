@@ -1,5 +1,6 @@
 import playersReducer from './players';
 import rulesReducer from './rules';
+import questsReducer from './quests';
 
 import { JOIN_GAME } from '../../constants';
 
@@ -15,6 +16,11 @@ export default function (state = DEFAULT, action) {
     default: 
       const players = playersReducer(state.players, action);
       const rules = rulesReducer(state.rules, action);
-      return Object.assign({}, state, { players, rules });
+      const quests = questsReducer(state.quests, action);
+      return Object.assign({}, state, {
+        players,
+        rules,
+        quests
+      });
   }
 }

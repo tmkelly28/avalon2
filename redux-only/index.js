@@ -17,17 +17,17 @@ const DUMMY_GAMES = {
     id: 1,
     name: "Tom's Game",
     hostId: 1,
-    players: {},
-    rules: {
-      numberOfPlayers: 0,
-      characters: {
-        mordred: false,
-        percival: false,
-        morgana: false,
-        oberon: false,
-        ladyOfTheLake: false
-      }
-    },
+    // players: {},
+    // rules: {
+    //   numberOfPlayers: 0,
+    //   characters: {
+    //     mordred: false,
+    //     percival: false,
+    //     morgana: false,
+    //     oberon: false,
+    //     ladyOfTheLake: false
+    //   }
+    // },
     quests: {
       1: {
         numberOfPlayers: 0,
@@ -105,3 +105,6 @@ store.dispatch(joinGame(DUMMY_GAME));
 for (let i = 1; i <= 5; i++)
   store.dispatch(addPlayer(DUMMY_USERS[i]));
 store.dispatch(toggleOptional('mordred'));
+
+
+store.dispatch({ type: 'START_GAME' });
