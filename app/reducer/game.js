@@ -27,7 +27,6 @@ export const createGame = user =>
 		const newGameRef = db.ref('games').push(fullGame)	// store new game in db
 		fullGame.id = newGameRef.key;	// use db key as state game's id
 		return dispatch(addPlayer(fullGame));
-		// return fullGame.id;	
 	}
 
 export const updateGame = (user, gameId) =>
@@ -49,6 +48,13 @@ export const updateGame = (user, gameId) =>
 		})
 		.catch(err => console.error(err));
 	}
+
+export const startGame = (game) => {
+	dispatch => {
+		console.log('You started a game!')
+		// will have to send a msg via firebase to change everyone's state to started (started: true???)
+	}
+}
 
 export default (state = DEFAULT_GAME, action) => {
 	switch (action.type) {

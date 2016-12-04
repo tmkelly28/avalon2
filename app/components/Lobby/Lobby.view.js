@@ -9,8 +9,9 @@ export default ({
 	gameId,
 	handleNewGame,
 	handleJoinGame,
-	getNumPlayers,
-	handleGameIdInput
+	handleGameIdInput,
+	handleLogOut,
+	getNumPlayers
 }) => {
 	const numPlayers = getNumPlayers(game);
 	// let players = [];
@@ -33,11 +34,15 @@ export default ({
 		<div id="lobby">
 		    <h3>{ user.displayName ? user.displayName : user.email }</h3>
 		    <div>
+		    	<button className="btn" onClick={handleLogOut}>
+		    		<Link to="/">Log Out</Link>
+				</button>
+		    </div>
+		    <div>
 			    { game.id.length
 			    	? <p><strong>Share this code with your clan: </strong> {game.id}</p>
 			    	: 	<div>
 				    		<button className="btn btn-default" onClick={() => handleNewGame(user)}>CREATE NEW
-				    		{/*<Link to={`/play/${game.key}`}>Create New Game</Link>*/}
 				    	  	</button>
 						    <div>
 						    	<div className="form-group">
@@ -50,7 +55,6 @@ export default ({
 							    		onChange={handleGameIdInput} />
 						    	</div>
 							    <button className="btn" onClick={() => handleJoinGame(user, gameId)}>JOIN GAME
-							    	{/*<Link to={`/play/${game.key}`}>Create New Game</Link>*/}
 							    </button>
 						    </div> 
 					    </div> 
@@ -64,9 +68,9 @@ export default ({
 			    	: <p></p>
 			    }
 
-			    { numPlayers > 4 && numPlayers < 11
+			    { numPlayers > 4 && numPlayers < 11 && game.players[user.id].host
 			    	? <button className="btn" onClick={() => handleStartGame(user, gameId)}>START GAME
-						    	{/*<Link to={`/play/${game.key}`}>Create New Game</Link>*/}
+						    	{/*<Link to={`/play/${game.key}`}>START GAME</Link>*/}
 					  </button>
 			    	: <p>Waiting for players to join...</p>
 			    }

@@ -17,21 +17,19 @@ export default class LobbyLocal extends Component {
 			handleJoinGame: this.handleJoinGame.bind(this),
 			// handleStartGame: this.handleStartGame.bind(this)
 			getNumPlayers: this.getNumPlayers.bind(this),
-			handleGameIdInput: this.handleGameIdInput.bind(this)
+			handleGameIdInput: this.handleGameIdInput.bind(this),
+			handleLogOut: this.handleLogOut.bind(this)
 		};
 	}
 
 	listenForPlayers(gameId) {
-		// let gameId = this.props.game.id;
 		db.ref(`games/${gameId}`).on('value', (snapshot) => {
-			console.log('SNAPSHOT VAL', snapshot.val());
 			this.props.addPlayer(snapshot.val());
 		});
 	}
 
 	handleNewGame(user) {
 		const gameId = this.props.createGame(user).game.id;
-		console.log('game id??', gameId);
 		this.listenForPlayers(gameId);
 	}
 
@@ -45,14 +43,16 @@ export default class LobbyLocal extends Component {
 		this.setState({ gameId: value });
 	}
 
+	handleLogOut (evt) {
+		evt.preventDefault();
+		this.props.logOut();
+	}
+
 	getNumPlayers(gameObj) {
 		const playerIds = Object.keys(gameObj.players).length;
-		console.log('PLAYER IDS', playerIds);
 		// if (!playerIds) return;
 		return playerIds;
 	}
-
-	// update when players join, listening to firebase >> will unmount when view changes
 
 	// handleStartGame(gameId, playerCount) {
 	// 	this.props.startGame(gameId, playerCount);
@@ -65,14 +65,4 @@ export default class LobbyLocal extends Component {
 			{...this.methods}
 		/>
 	}
-
-	// componentWillReceiveProps(nextProps) {
-	// 	let gameId = this.props.game.id;
-	// 	if (Object.keys(nextProps.game.players).contains === 1) {
-	// 		db.ref(`games/${gameId}`).on('value', (snapshot) => {
-	// 			console.log('SNAPSHOT VAL', snapshot.val());
-	// 			this.props.addPlayer(snapshot.val()[gameId]);
-	// 		});
-	// 	}
-	// }
 }
