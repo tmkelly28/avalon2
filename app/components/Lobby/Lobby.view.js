@@ -69,7 +69,7 @@ export default ({
 			    }
 
 			    { numPlayers > 4 && numPlayers < 11 && game.players[user.id].host
-			    	? <button className="btn" onClick={() => handleStartGame(user, gameId)}>START GAME
+			    	? <button className="btn" onClick={() => handleStartGame(user, gameId)}>OPEN GAME ROOM
 						    	{/*<Link to={`/play/${game.key}`}>START GAME</Link>*/}
 					  </button>
 			    	: <p>Waiting for players to join...</p>
