@@ -1,11 +1,6 @@
 import { combineReducers } from 'redux';
 import { ADD_PLAYER, TOGGLE_OPTIONAL } from '../../constants';
 
-export const toggleOptional = character => ({
-  type: TOGGLE_OPTIONAL,
-  character
-});
-
 const DEFAULT_CHARACTERS = {
   mordred: false,
   percival: false,
@@ -13,6 +8,11 @@ const DEFAULT_CHARACTERS = {
   oberon: false,
   ladyOfTheLake: false
 };
+
+export const toggleOptional = character => ({
+  type: TOGGLE_OPTIONAL,
+  character
+});
 
 // numberOfPlayers Reducer
 const numberOfPlayers = (state = 0, action) => {
@@ -27,7 +27,7 @@ const characters = (state = DEFAULT_CHARACTERS, action) => {
   switch (action.type) {
     case TOGGLE_OPTIONAL: return Object.assign({}, state, {
       [action.character]: !state[action.character]
-    })
+    });
     default: return state;
   }
 };

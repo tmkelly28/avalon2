@@ -3,3 +3,7 @@ export const ADD_PLAYER = 'ADD_PLAYER';
 export const RECEIVE_GAMES = 'RECEIVE_GAMES';
 export const TOGGLE_OPTIONAL = 'TOGGLE_OPTIONAL';
 export const START_GAME = 'START_GAME';
+export const PROPOSE_TEAM = 'PROPOSE_TEAM';
+export const VOTE_ON_TEAM = 'VOTE_ON_TEAM';
+export const VOTE_ON_QUEST = 'VOTE_ON_QUEST';
+export const NEXT_QUEST = 'NEXT_QUEST';

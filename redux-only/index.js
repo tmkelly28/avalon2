@@ -5,6 +5,7 @@ import { receiveGames } from './reducers/games';
 import { joinGame } from './reducers/game';
 import { toggleOptional } from './reducers/game/rules';
 import { addPlayer } from './reducers/game/players';
+import { proposeTeam, voteOnQuest, nextQuest } from './reducers/game/quests';
 /** End dummy zone */
 
 
@@ -22,38 +23,38 @@ const DUMMY_GAMES = {
         numberOfPlayers: 0,
         numberOfSuccessesNeeded: 0,
         numberOfFailssNeeded: 0,
-        actualSuccesses: 0,
-        actualFails: 0
+        successVotes: 0,
+        failVotes: 0
       },
       2: {
         numberOfPlayers: 0,
         numberOfSuccessesNeeded: 0,
         numberOfFailssNeeded: 0,
-        actualSuccesses: 0,
-        actualFails: 0
+        successVotes: 0,
+        failVotes: 0
       },
       3: {
         numberOfPlayers: 0,
         numberOfSuccessesNeeded: 0,
         numberOfFailssNeeded: 0,
-        actualSuccesses: 0,
-        actualFails: 0
+        successVotes: 0,
+        failVotes: 0
 
       },
       4: {
         numberOfPlayers: 0,
         numberOfSuccessesNeeded: 0,
         numberOfFailssNeeded: 0,
-        actualSuccesses: 0,
-        actualFails: 0
+        successVotes: 0,
+        failVotes: 0
 
       },
       5: {
         numberOfPlayers: 0,
         numberOfSuccessesNeeded: 0,
         numberOfFailssNeeded: 0,
-        actualSuccesses: 0,
-        actualFails: 0
+        successVotes: 0,
+        failVotes: 0
       }
     }
   },
@@ -94,6 +95,7 @@ store.dispatch(joinGame(DUMMY_GAME));
 for (let i = 1; i <= 5; i++)
   store.dispatch(addPlayer(DUMMY_USERS[i]));
 store.dispatch(toggleOptional('mordred'));
-
-
 store.dispatch({ type: 'START_GAME' });
+// store.dispatch(proposeTeam());
+store.dispatch(nextQuest());
+
