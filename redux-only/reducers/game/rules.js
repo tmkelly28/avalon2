@@ -14,7 +14,7 @@ const DEFAULT_CHARACTERS = {
   ladyOfTheLake: false
 };
 
-// numPlayers Reducer
+// numberOfPlayers Reducer
 const numberOfPlayers = (state = 0, action) => {
   switch (action.type) {
     case ADD_PLAYER: return ++state;
@@ -22,7 +22,7 @@ const numberOfPlayers = (state = 0, action) => {
   }
 };
  
-// Characters Reducer
+// characters Reducer
 const characters = (state = DEFAULT_CHARACTERS, action) => {
   switch (action.type) {
     case TOGGLE_OPTIONAL: return Object.assign({}, state, {

@@ -10,7 +10,7 @@ const DEFAULT_QUESTS = {
 };
 
 const DEFAULT_QUEST = {
-  requiredPlayers: 0,
+  requiredPlayers: 0,   // === numberOfSuccessesNeeded
   numberOfFailsNeeded: 0,
   actualSuccesses: 0,
   actualFails: 0
@@ -32,9 +32,68 @@ function initializeQuests ({ game: {rules: { numberOfPlayers } } }) {
         });
       
       case 2:
+        if (numberOfPlayers < 8) _QUESTS[i] = Object.assign({},
+          DEFAULT_QUEST, {
+          requiredPlayers: 3,
+          numberOfFailsNeeded: 1
+        });
+        else _QUESTS[i] = Object.assign({}, DEFAULT_QUEST, {
+          requiredPlayers: 4,
+          numberOfFailsNeeded: 1
+        });
+
       case 3:
+        if (numberOfPlayers === 5) _QUESTS[i] = Object.assign({},
+          DEFAULT_QUEST, {
+          requiredPlayers: 2,
+          numberOfFailsNeeded: 1
+        });
+        else if (numberOfPlayers === 6) _QUESTS[i] = Object.assign({},
+          DEFAULT_QUEST, {
+          requiredPlayers: 4,
+          numberOfFailsNeeded: 1
+        });
+        else if (numberOfPlayers === 7) _QUESTS[i] = Object.assign({},
+          DEFAULT_QUEST, {
+          requiredPlayers: 3,
+          numberOfFailsNeeded: 1
+        });
+        else _QUESTS[i] = Object.assign({}, DEFAULT_QUEST, {
+          requiredPlayers: 4,
+          numberOfFailsNeeded: 1
+        });
+
       case 4:
+        if (numberOfPlayers < 7) _QUESTS[i] = Object.assign({},
+          DEFAULT_QUEST, {
+          requiredPlayers: 3,
+          numberOfFailsNeeded: 1
+        });
+        else if (numberOfPlayers === 7) _QUESTS[i] = Object.assign({},
+          DEFAULT_QUEST, {
+          requiredPlayers: 4,
+          numberOfFailsNeeded: 2
+        });
+        else _QUESTS[i] = Object.assign({}, DEFAULT_QUEST, {
+          requiredPlayers: 5,
+          numberOfFailsNeeded: 2
+        });
+
       case 5:
+        if (numberOfPlayers === 5) _QUESTS[i] = Object.assign({},
+          DEFAULT_QUEST, {
+          requiredPlayers: 3,
+          numberOfFailsNeeded: 1
+        });
+        else if (numberOfPlayers < 8) _QUESTS[i] = Object.assign({},
+          DEFAULT_QUEST, {
+          requiredPlayers: 4,
+          numberOfFailsNeeded: 1
+        });
+        else _QUESTS[i] = Object.assign({}, DEFAULT_QUEST, {
+          requiredPlayers: 5,
+          numberOfFailsNeeded: 1
+        });
     }
   });
 

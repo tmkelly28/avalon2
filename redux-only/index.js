@@ -17,17 +17,6 @@ const DUMMY_GAMES = {
     id: 1,
     name: "Tom's Game",
     hostId: 1,
-    // players: {},
-    // rules: {
-    //   numberOfPlayers: 0,
-    //   characters: {
-    //     mordred: false,
-    //     percival: false,
-    //     morgana: false,
-    //     oberon: false,
-    //     ladyOfTheLake: false
-    //   }
-    // },
     quests: {
       1: {
         numberOfPlayers: 0,
