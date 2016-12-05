@@ -1,7 +1,9 @@
 import store from '../../store';
 import { combineReducers } from 'redux';
-import { START_GAME, PROPOSE_TEAM, VOTE_ON_TEAM, VOTE_ON_QUEST, NEXT_QUEST } from '../../constants';
+import { START_GAME, PROPOSE_TEAM, VOTE_ON_TEAM, VOTE_ON_QUEST, SCORE_AND_END_QUEST } from '../../constants';
 
+
+// -------------------------- DEFAULTS --------------------------
 const DEFAULT_QUEST = {
   requiredPlayers: 0,   // === numberOfSuccessesNeeded
   numberOfFailsNeeded: 0,
@@ -10,8 +12,7 @@ const DEFAULT_QUEST = {
   team: {
     successVotes: 0,
     failVotes: 0
-  },
-  isCurrentQuest: false
+  }
 };
 
 const DEFAULT_QUESTS = {
@@ -20,12 +21,15 @@ const DEFAULT_QUESTS = {
   3: DEFAULT_QUEST,
   4: DEFAULT_QUEST,
   5: DEFAULT_QUEST,
-  currentQuest: 1
+  currentQuest: 1,
+  loyalScore: 0,
+  evilScore: 0
 };
 
+// -------------------------- HELPERS --------------------------
 const five = [1, 2, 3, 4, 5];
 const initializeQuests = ({ game: { rules: { numberOfPlayers } } }) => {
-  const _QUESTS = { currentQuest: 1 };
+  const _QUESTS = {};
   five.map(i => {
     switch (i) { // switch on quest number
       case 1:
@@ -103,9 +107,41 @@ const initializeQuests = ({ game: { rules: { numberOfPlayers } } }) => {
         });
     }
   });
+
+  return Object.assign({}, DEFAULT_QUESTS, _QUESTS);
+};
+
+function addVoteToQuests ({ game: { quests }}, voteType) {
+  const _QUESTS = Object.assign({}, quests);
+  const _QNUMBER = _QUESTS.currentQuest;
+  const _CURQUEST = _QUESTS[_QNUMBER];
+  const fieldToUpdate = voteType ? 'successVotes' : 'failVotes';
+  _QUESTS[_QNUMBER] = Object.assign({}, _CURQUEST, {
+    [fieldToUpdate]: ++_CURQUEST[fieldToUpdate]
+  });
+
   return _QUESTS;
 };
 
+function tallyQuestAndContinue ({ game: { quests }}) {
+  const _QUESTS = Object.assign({}, quests);
+  const _QNUMBER = _QUESTS.currentQuest;
+  const _CURQUEST = _QUESTS[_QNUMBER];
+
+  const didSucceed = _CURQUEST.failVotes < _CURQUEST.numberOfFailsNeeded;
+  const gameScoreToUpdate = didSucceed ? 'loyalScore' : 'evilScore';
+
+  _QUESTS[gameScoreToUpdate] = ++_QUESTS[gameScoreToUpdate];
+  _QUESTS.currentQuest = ++_QUESTS.currentQuest;
+
+  _QUESTS[_QNUMBER] = Object.assign({}, _CURQUEST, {
+    didSucceed
+  });
+
+  return _QUESTS;
+};
+
+// -------------------------- ACTIONS --------------------------
 export const proposeTeam = (team) => ({
   type: PROPOSE_TEAM,
   team
@@ -121,56 +157,40 @@ export const voteOnQuest = (voteType) => ({
   voteType
 });
 
-export const nextQuest = () => ({
-  type: NEXT_QUEST
+// run this dispatch on frontend using fb listener to tally total vote count
+export const scoreAndEndQuest = () => ({
+  type: SCORE_AND_END_QUEST
 });
 
-const teamReducer = (state = {}, action) => {
-  switch (action.type) {
-    case PROPOSE_TEAM: return Object.assign({}, state, {
-      team: action.team
-    });
-    case VOTE_ON_TEAM: return Object.assign({}, state, {
-      [action.voteType]: ++state[voteType]
-    });
-
-    // ADD_TO_TEAM (this can be kept on indiv's client side until team proposal)
-
-    default: return state;
-  }
-}
-
-// need to keep track of current quest and have questReducer know whch it is...?
-// DEFAULT_CURRENT_QUEST??
 // team approval? propose team?
-const questReducer = (state = DEFAULT_QUEST, action) => {
-  switch (action.type) {
-    case VOTE_ON_QUEST: return Object.assign({}, state, {
-      [action.voteType]: ++state[voteType]
-    });
-    // SCORE_QUEST (this can be taken care of with a FB listener)
-    default: return state;
-  }
-};
+// const teamReducer = (state = {}, action) => {
+//   switch (action.type) {
+//     case PROPOSE_TEAM: return Object.assign({}, state, {
+//       team: action.team
+//     });
+//     case VOTE_ON_TEAM: return Object.assign({}, state, {
+//       [action.voteType]: ++state[voteType]
+//     });
 
-const questsReducer = (state = DEFAULT_QUESTS, action) => {
+//     // ADD_TO_TEAM (this can be kept on indiv's client side until team proposal)
+
+//     default: return state;
+//   }
+// };
+
+
+// -------------------------- REDUCER --------------------------
+export default (state = DEFAULT_QUESTS, action) => {
   switch (action.type) {
+    // All quests
     case START_GAME: return initializeQuests(store.getState());
-    case NEXT_QUEST: return Object.assign({}, state, {
-      currentQuest: ++state.currentQuest  // acct for end of game
-    });
 
-    // // questReducer?
-    // case VOTE_ON_QUEST: return Object.assign({}, state[state.currentQuest], {
-    //   [action.voteType]: ++
-    // });
+    // Current quest
+    case VOTE_ON_QUEST: return addVoteToQuests(store.getState(), action.voteType);
+    case SCORE_AND_END_QUEST: return tallyQuestAndContinue(store.getState());
+
+    // Current quest team
 
     default: return state;
   }
 };
-
-export default combineReducers({
-  teamReducer,
-  questReducer,
-  questsReducer
-});

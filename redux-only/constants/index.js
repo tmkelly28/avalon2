@@ -6,4 +6,4 @@ export const START_GAME = 'START_GAME';
 export const PROPOSE_TEAM = 'PROPOSE_TEAM';
 export const VOTE_ON_TEAM = 'VOTE_ON_TEAM';
 export const VOTE_ON_QUEST = 'VOTE_ON_QUEST';
-export const NEXT_QUEST = 'NEXT_QUEST';
+export const SCORE_AND_END_QUEST = 'SCORE_AND_END_QUEST';
