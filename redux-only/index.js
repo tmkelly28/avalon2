@@ -5,7 +5,7 @@ import { receiveGames } from './reducers/games';
 import { joinGame } from './reducers/game';
 import { toggleOptional } from './reducers/game/rules';
 import { addPlayer } from './reducers/game/players';
-import { proposeTeam, voteOnQuest, scoreAndEndQuest } from './reducers/game/quests';
+import { addToTeam, proposeTeam, voteOnQuest, scoreAndEndQuest } from './reducers/game/quests';
 /** End dummy zone */
 
 
@@ -110,4 +110,5 @@ store.dispatch(scoreAndEndQuest());
 
 // Quest 2: succeed
 store.dispatch(voteOnQuest(true));
+store.dispatch(addToTeam(DUMMY_USERS[1]));
 store.dispatch(scoreAndEndQuest());

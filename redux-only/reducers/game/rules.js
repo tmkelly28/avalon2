@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { ADD_PLAYER, TOGGLE_OPTIONAL } from '../../constants';
+import { ADD_PLAYER_TO_GAME, TOGGLE_OPTIONAL } from '../../constants';
 
 const DEFAULT_CHARACTERS = {
   mordred: false,
@@ -17,7 +17,7 @@ export const toggleOptional = character => ({
 // numberOfPlayers Reducer
 const numberOfPlayers = (state = 0, action) => {
   switch (action.type) {
-    case ADD_PLAYER: return ++state;
+    case ADD_PLAYER_TO_GAME: return ++state;
     default: return state;
   }
 };

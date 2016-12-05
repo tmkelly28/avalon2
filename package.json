@@ -7,7 +7,10 @@
     "start": "webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["firebase", "react"],
+  "keywords": [
+    "firebase",
+    "react"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -27,6 +30,7 @@
     "redux-thunk": "^2.1.0",
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
+    "underscore": "^1.8.3",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.2"
   }

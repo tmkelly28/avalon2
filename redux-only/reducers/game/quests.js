@@ -1,6 +1,5 @@
 import store from '../../store';
-import { combineReducers } from 'redux';
-import { START_GAME, PROPOSE_TEAM, VOTE_ON_TEAM, VOTE_ON_QUEST, SCORE_AND_END_QUEST } from '../../constants';
+import { START_GAME, ADD_TO_TEAM, PROPOSE_TEAM, VOTE_ON_TEAM, VOTE_ON_QUEST, SCORE_AND_END_QUEST } from '../../constants';
 
 
 // -------------------------- DEFAULTS --------------------------
@@ -111,6 +110,18 @@ const initializeQuests = ({ game: { rules: { numberOfPlayers } } }) => {
   return Object.assign({}, DEFAULT_QUESTS, _QUESTS);
 };
 
+function addPlayerToTeam({ game: { quests }}, player) {
+  const _QUESTS = Object.assign({}, quests);
+  const _QNUMBER = _QUESTS.currentQuest;
+  const _CURQUEST = _QUESTS[_QNUMBER];
+
+  _QUESTS[_QNUMBER].team = Object.assign({}, _CURQUEST.team, {
+    [player.id]: player
+  });
+
+  return _QUESTS;
+};
+
 function addVoteToQuests ({ game: { quests }}, voteType) {
   const _QUESTS = Object.assign({}, quests);
   const _QNUMBER = _QUESTS.currentQuest;
@@ -127,22 +138,29 @@ function tallyQuestAndContinue ({ game: { quests }}) {
   const _QUESTS = Object.assign({}, quests);
   const _QNUMBER = _QUESTS.currentQuest;
   const _CURQUEST = _QUESTS[_QNUMBER];
-
   const didSucceed = _CURQUEST.failVotes < _CURQUEST.numberOfFailsNeeded;
   const gameScoreToUpdate = didSucceed ? 'loyalScore' : 'evilScore';
-
-  _QUESTS[gameScoreToUpdate] = ++_QUESTS[gameScoreToUpdate];
-  _QUESTS.currentQuest = ++_QUESTS.currentQuest;
 
   _QUESTS[_QNUMBER] = Object.assign({}, _CURQUEST, {
     didSucceed
   });
+  
+  _QUESTS[gameScoreToUpdate] = ++_QUESTS[gameScoreToUpdate];
+  
+  if (_QUESTS.currentQuest < 5) {
+    _QUESTS.currentQuest = ++_QUESTS.currentQuest;
+  };
 
   return _QUESTS;
 };
 
-// -------------------------- ACTIONS --------------------------
-export const proposeTeam = (team) => ({
+// ---------------------- ACTIONS CREATORS ----------------------
+export const addToTeam = (player) => ({
+  type: ADD_TO_TEAM,
+  player
+});
+
+export const proposeTeam = (team) => ({ // send to FB to update all players
   type: PROPOSE_TEAM,
   team
 });
@@ -157,26 +175,15 @@ export const voteOnQuest = (voteType) => ({
   voteType
 });
 
-// run this dispatch on frontend using fb listener to tally total vote count
+// run this dispatch once fb listener hears totalCount === numPlayers
 export const scoreAndEndQuest = () => ({
   type: SCORE_AND_END_QUEST
 });
 
 // team approval? propose team?
-// const teamReducer = (state = {}, action) => {
-//   switch (action.type) {
-//     case PROPOSE_TEAM: return Object.assign({}, state, {
-//       team: action.team
-//     });
-//     case VOTE_ON_TEAM: return Object.assign({}, state, {
-//       [action.voteType]: ++state[voteType]
-//     });
-
-//     // ADD_TO_TEAM (this can be kept on indiv's client side until team proposal)
-
-//     default: return state;
-//   }
-// };
+// case PROPOSE_TEAM
+// case VOTE_ON_TEAM: return Object.assign({}, state, {
+//   [action.voteType]: ++state[voteType]
 
 
 // -------------------------- REDUCER --------------------------
@@ -185,11 +192,12 @@ export default (state = DEFAULT_QUESTS, action) => {
     // All quests
     case START_GAME: return initializeQuests(store.getState());
 
+    // Current quest's team
+    case ADD_TO_TEAM: return addPlayerToTeam(store.getState(), action.player);
+
     // Current quest
     case VOTE_ON_QUEST: return addVoteToQuests(store.getState(), action.voteType);
     case SCORE_AND_END_QUEST: return tallyQuestAndContinue(store.getState());
-
-    // Current quest team
 
     default: return state;
   }
