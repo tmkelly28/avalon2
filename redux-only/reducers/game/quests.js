@@ -154,7 +154,7 @@ function tallyQuestAndContinue ({ game: { quests }}) {
   return _QUESTS;
 };
 
-// ---------------------- ACTIONS CREATORS ----------------------
+// ---------------------- ACTION CREATORS ----------------------
 export const addToTeam = (player) => ({
   type: ADD_TO_TEAM,
   player
@@ -180,7 +180,6 @@ export const scoreAndEndQuest = () => ({
   type: SCORE_AND_END_QUEST
 });
 
-// team approval? propose team?
 // case PROPOSE_TEAM
 // case VOTE_ON_TEAM: return Object.assign({}, state, {
 //   [action.voteType]: ++state[voteType]

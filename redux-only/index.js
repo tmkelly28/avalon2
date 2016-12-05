@@ -4,7 +4,7 @@ import store from './store';
 import { receiveGames } from './reducers/games';
 import { joinGame } from './reducers/game';
 import { toggleOptional } from './reducers/game/rules';
-import { addPlayer } from './reducers/game/players';
+import { addPlayerToGame } from './reducers/game/players';
 import { addToTeam, proposeTeam, voteOnQuest, scoreAndEndQuest } from './reducers/game/quests';
 /** End dummy zone */
 
@@ -97,7 +97,7 @@ const DUMMY_GAME = DUMMY_GAMES[1];
 store.dispatch(receiveGames(DUMMY_GAMES));
 store.dispatch(joinGame(DUMMY_GAME));
 for (let i = 1; i <= 5; i++)
-  store.dispatch(addPlayer(DUMMY_USERS[i]));
+  store.dispatch(addPlayerToGame(DUMMY_USERS[i]));
 store.dispatch(toggleOptional('mordred'));
 store.dispatch({ type: 'START_GAME' });
 

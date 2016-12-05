@@ -1,6 +1,7 @@
-import store from '../../store';
-import { ADD_PLAYER_TO_GAME, START_GAME } from '../../constants';
 import { _ } from 'underscore';
+import store from '../../store';
+import { initializeLady } from './rules';
+import { ADD_PLAYER_TO_GAME, START_GAME } from '../../constants';
 
 // -------------------------- DEFAULTS --------------------------
 const DEFAULT_PLAYER = {
@@ -111,6 +112,7 @@ function assignCharacters ({ game: { rules }}, players) {
   // shuffle characters
   chars = _.shuffle(chars);
 
+  // assign characters to players
   Object.keys(_PLAYERS).map(playerId => {
     let charIdx = 0;
     _PLAYERS[playerId] = Object.assign({}, _PLAYERS[playerId], chars[charIdx]);
@@ -121,7 +123,7 @@ function assignCharacters ({ game: { rules }}, players) {
 };
 
 // ---------------------- ACTION CREATORS ----------------------
-export const addPlayer = player => ({
+export const addPlayerToGame = player => ({
   type: ADD_PLAYER_TO_GAME,
   player
 });
