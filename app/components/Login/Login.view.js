@@ -41,8 +41,6 @@ export default ({
         placeholder='Password'
         onChange={handleChange} />
     </div>
-      <button className="btn btn-primary" onClick={handleJoin}>
-        <Link to="/begin">Login</Link> {/*this needs to be the whole button*/}
-      </button>
+    <Link to="/lobby" className="btn btn-primary">Login</Link>
   </form>
 );
