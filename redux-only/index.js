@@ -3,9 +3,9 @@ import store from './store';
 /** Dummy zone  */
 import { receiveGames } from './reducers/games';
 import { joinGame } from './reducers/game';
-import { toggleOptional } from './reducers/game/rules';
+import { toggleOptional, playLadyCard } from './reducers/game/rules';
 import { addPlayerToGame } from './reducers/game/players';
-import { addToTeam, proposeTeam, voteOnQuest, scoreAndEndQuest } from './reducers/game/quests';
+import { addToTeam, removeFromTeam, proposeTeam, voteOnTeam, scoreTeamVotes, voteOnQuest, scoreAndEndQuest } from './reducers/game/quests';
 /** End dummy zone */
 
 
@@ -104,11 +104,19 @@ store.dispatch({ type: 'START_GAME' });
 // store.dispatch(proposeTeam());
 
 // Quest 1: fail
-store.dispatch(voteOnQuest(true));
-store.dispatch(voteOnQuest(false));
+store.dispatch(addToTeam(DUMMY_USERS[5]));
+store.dispatch(voteOnTeam(false));  // team.failVotes = 1
+store.dispatch(scoreTeamVotes());
+// store.dispatch(voteOnQuest(true));
+// store.dispatch(voteOnQuest(false));
 store.dispatch(scoreAndEndQuest());
 
 // Quest 2: succeed
-store.dispatch(voteOnQuest(true));
 store.dispatch(addToTeam(DUMMY_USERS[1]));
-store.dispatch(scoreAndEndQuest());
+store.dispatch(addToTeam(DUMMY_USERS[3]));
+store.dispatch(removeFromTeam(DUMMY_USERS[3]));
+store.dispatch(playLadyCard(DUMMY_USERS[3]));
+// store.dispatch(voteOnTeam(true)); // team.successVotes = 1
+// store.dispatch(scoreTeamVotes());
+// store.dispatch(voteOnQuest(true));
+// store.dispatch(scoreAndEndQuest());
