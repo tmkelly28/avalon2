@@ -10,7 +10,7 @@ export default ({
   pwd,
   displayName
 }) => (
-  <form>
+  <form onSubmit={handleJoin}>
     <div className="form-group">
       <label htmlFor="email">Email</label>
       <input
@@ -41,6 +41,6 @@ export default ({
         placeholder='Password'
         onChange={handleChange} />
     </div>
-    <Link to="/lobby" className="btn btn-primary">Login</Link>
+    <button type="submit" className="btn btn-primary">Login</button>
   </form>
 );

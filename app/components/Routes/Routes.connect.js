@@ -1,11 +1,11 @@
-import { connect } from 'react-redux';	// access dispatch() and generate container components
+import { connect } from 'react-redux';
 import RoutesLocal from './Routes.local';
-import { receiveUser } from '../../reducer/user';
+import { receiveUser } from '../../store/reducers/user';
 
-export default connect (	// connect(mapStatetoProps, mapDispatchToProps)(renderComponent)
+export default connect (
   null,
   dispatch => ({
     receiveUser: user =>
-      dispatch(receiveUser(user))	// receiveUser passed as props to RoutesLocal
+      dispatch(receiveUser(user))
   })
 )(RoutesLocal);

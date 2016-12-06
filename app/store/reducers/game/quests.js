@@ -1,6 +1,14 @@
-import store from '../../store';
-import { START_GAME, ADD_TO_TEAM, REMOVE_FROM_TEAM, PROPOSE_TEAM, VOTE_ON_TEAM, SCORE_TEAM_VOTES, VOTE_ON_QUEST, SCORE_AND_END_QUEST } from '../../constants';
-
+import store from '../../index';
+import {
+  START_GAME,
+  ADD_TO_TEAM,
+  REMOVE_FROM_TEAM,
+  PROPOSE_TEAM,
+  VOTE_ON_TEAM,
+  SCORE_TEAM_VOTES,
+  VOTE_ON_QUEST,
+  SCORE_AND_END_QUEST
+} from '../../constants';
 
 // -------------------------- DEFAULTS --------------------------
 const DEFAULT_TEAM = {

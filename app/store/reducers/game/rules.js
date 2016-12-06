@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import store from '../../store';
+import store from '../../index';
 import { ADD_PLAYER_TO_GAME, TOGGLE_OPTIONAL, START_GAME, PLAY_LADY_CARD } from '../../constants';
 
 

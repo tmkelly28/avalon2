@@ -36,7 +36,12 @@ export default ({
           Create New
         </button>
         <Link to="/room/1" className="btn btn-primary" style={margin}>Join Game</Link>
-        <Link to="/" className="btn btn-secondary" style={margin}>Log Out</Link>
+        <button
+          onClick={handleLogOut}
+          className="btn btn-secondary"
+          style={margin}>
+          Log Out
+        </button>
       </div>
     </div>
   );

@@ -1,17 +1,12 @@
-import store from './store';
-
 /** Dummy zone  */
-import { receiveGames } from './reducers/games';
-import { joinGame } from './reducers/game';
-import { toggleOptional, playLadyCard } from './reducers/game/rules';
-import { addPlayerToGame } from './reducers/game/players';
-import { addToTeam, removeFromTeam, proposeTeam, voteOnTeam, scoreTeamVotes, voteOnQuest, scoreAndEndQuest } from './reducers/game/quests';
+import { receiveGames } from './app/store/reducers/games';
+import { joinGame } from './app/store/reducers/game';
+import { toggleOptional, playLadyCard } from './app/store/reducers/game/rules';
+import { addPlayerToGame } from './app/store/reducers/game/players';
+import { addToTeam, removeFromTeam, proposeTeam, voteOnTeam, scoreTeamVotes, voteOnQuest, scoreAndEndQuest } from './app/store/reducers/game/quests';
 /** End dummy zone */
-
-
-window.store = store;
-
 console.log('hello avalon');
+console.log('here is some dummy data')
 
 const DUMMY_GAMES = {
   1: {

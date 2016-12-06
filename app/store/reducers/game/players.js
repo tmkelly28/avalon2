@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import store from '../../store';
+import store from '../../index';
 import { ADD_PLAYER_TO_GAME, START_GAME } from '../../constants';
 
 // -------------------------- DEFAULTS --------------------------

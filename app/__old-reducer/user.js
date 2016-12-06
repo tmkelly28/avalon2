@@ -8,7 +8,7 @@ export const receiveUser = user => {
   return ({
     type: RECEIVE_USER,
     user
-  })
+  });
 };
 
 export const removeUser = () =>
@@ -32,7 +32,7 @@ export const logIn = credentials =>
         return user.updateProfile({
           displayName,
           photoUrl
-        })
+        });
       })
       .then(() => {
         return dispatch(receiveUser({ displayName, photoUrl: photoUrl || null }))
