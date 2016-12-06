@@ -17,7 +17,7 @@ export default ({
 }) => {
   return (
     <div id="lobby" className="container">
-      <h3>Welcome USER_NAME!</h3>
+      <h3>Welcome, {user.displayName ? user.displayName : user.email}!</h3>
       <div className="form-group">
         <input
           name="gameId"
@@ -29,8 +29,13 @@ export default ({
         />
       </div>
       <div>
-        <Link to="/room/1" className="btn btn-primary" style={margin}>Join</Link>
-        <button className="btn btn-success" style={margin}>Create New</button>
+        <button
+          className="btn btn-success"
+          style={margin}
+          onClick={() => handleNewGame(user)} >
+          Create New
+        </button>
+        <Link to="/room/1" className="btn btn-primary" style={margin}>Join Game</Link>
         <Link to="/" className="btn btn-secondary" style={margin}>Log Out</Link>
       </div>
     </div>
