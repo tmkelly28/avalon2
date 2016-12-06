@@ -4,7 +4,7 @@ var webpack = require('webpack');
 
 module.exports = {
   // don't forget to change back to './app/index.js'
-  entry: './redux-only/index.js',
+  entry: './app/index.js',
   output: {
     path: __dirname,
     filename: './public/bundle.js'
