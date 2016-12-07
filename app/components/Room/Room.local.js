@@ -18,12 +18,6 @@ export default class RoomLocal extends Component {
     this.methods = {};
   }
 
-  // changeHost () {
-  //   const roomId = this.props.params.roomId;
-  //   db.ref(`games/${roomId}`).update({
-  //     [`hostId`]: 'blah'
-  //   });
-  // }
 
   componentDidMount () {
     db.ref(this.gamePath).once('value').then(snap => {

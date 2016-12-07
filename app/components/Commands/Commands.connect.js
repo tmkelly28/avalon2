@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
-import CommandsView from './Commands.view';
+import CommandsLocal from './Commands.local';
+import { startGame } from '../../store/reducers/game';
 
 export default connect(
   ({
@@ -7,12 +8,19 @@ export default connect(
     game: {
       hostId,
       players,
-      status
+      status,
+      gameId
     }
   }) => ({
     user,
     hostId,
     players,
-    status
+    status,
+    gameId
+  }),
+  dispatch => ({
+    startGame (numPlayers, gameId) {
+      dispatch(startGame(numPlayers, gameId));
+    }
   })
-)(CommandsView);
+)(CommandsLocal);
