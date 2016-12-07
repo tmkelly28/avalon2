@@ -3,14 +3,12 @@ import Player from '../Player';
 
 const margin = { margin: '10px' };
 
-export default ({}) => {
+export default ({
+  players,
+}) => {
   return (
     <div className="row flex justify-between" style={margin}>
-      <Player />
-      <Player />
-      <Player />
-      <Player />
-      <Player />
+      { players.map(player => <Player player={player} />) }
     </div>
   );
 }

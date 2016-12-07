@@ -27,7 +27,6 @@ export default class RoomLocal extends Component {
 
   componentDidMount () {
     db.ref(this.gamePath).once('value').then(snap => {
-      console.log(snap.val())
       this.props.updateGame(snap.val());
     });
 

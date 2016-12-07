@@ -1,1 +1,1 @@
-export { default } from './Commands.view';
+export { default } from './Commands.connect';

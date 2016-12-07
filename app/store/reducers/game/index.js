@@ -6,20 +6,26 @@ export const createGame = user => dispatch => {
   const hostId = user.id;
   const ref = db.ref('games').push();
   const key = ref.key;
-  ref.set({ hostId });
+  ref.set({
+    hostId,
+    status: 'PREGAME'
+  });
   dispatch(joinGame(user, key));
   hashHistory.push(`rooms/${key}`);
 };
 
 export const joinGame = (user, gameId) => () => {
+  console.log(user, gameId)
   const ref = db.ref(`games/${gameId}/players`).push();
   const key = ref.key;
   ref.set({
-    id: user.id,
+    userId: user.id,
+    playerId: key,
     email: user.email,
     loyalty: '',
     character: ''
   });
+  hashHistory.push(`rooms/${gameId}`);
 };
 
 export const updateGame = game => ({ type: UPDATE_GAME, game });

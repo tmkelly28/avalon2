@@ -14,6 +14,7 @@ export default class LobbyLocal extends Component {
 
     this.methods = {
       handleNewGame: this.handleNewGame.bind(this),
+      handleJoinGame: this.handleJoinGame.bind(this),
       handleChange: this.handleChange.bind(this),
       handleLogOut: this.handleLogOut.bind(this)
     };

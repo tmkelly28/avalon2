@@ -9,10 +9,13 @@ const avatar = {
   borderRadius: '10%'
 };
 
-export default ({}) => {
-
+export default ({
+  player: {
+    playerId
+  }
+}) => {
   return (
-    <div className="flex">
+    <div className="flex" key={playerId}>
       <img src={DUMMY_AVATAR} style={avatar} />
       <div className="flex flex-column">
         <button className="btn btn-link">Guess Merlin</button>
