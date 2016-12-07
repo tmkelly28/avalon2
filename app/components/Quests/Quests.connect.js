@@ -3,19 +3,11 @@ import QuestsView from './Quests.view';
 
 export default connect(
 ({ game: {
-    quest1,
-    quest2,
-    quest3,
-    quest4,
-    quest5,
+    quests,
     currentQuest
   }
 }) => ({
-  quest1,
-  quest2,
-  quest3,
-  quest4,
-  quest5,
+  quests,
   currentQuest
 })
 )(QuestsView);

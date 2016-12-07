@@ -1,1 +1,1 @@
-export { default } from './Player.connect';
+export { default } from './Player.view';

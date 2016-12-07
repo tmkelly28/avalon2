@@ -7,7 +7,7 @@ export default connect(
     user,
     game: {
       hostId,
-      players = [],
+      players,
       status,
       gameId
     }

@@ -16,7 +16,7 @@ export const createGame = user => dispatch => {
     // morgana: false,
     // percival: false,
     // oberon: false,
-    currentQuest: 1,
+    currentQuest: 0,
     currentTurn: 0,
     gameId: key,
     approves: 0,
@@ -56,9 +56,14 @@ export const startGame = () => (dispatch, getState) => {
     }
   } = getState();
 
-  const playerIds = _.keys(players);
+  console.log('here we go, starting a game')
+  console.log('players', players)
+  const playerIds = players.map(player => player.playerId);
+  console.log('playerIds', playerIds)
   const numPlayers = _.values(players).length;
+  console.log('numPlayers', numPlayers)
   const turnOrder = _.shuffle(playerIds).join(',');
+  console.log(turnOrder)
 
   const [
     quest1,
@@ -71,7 +76,7 @@ export const startGame = () => (dispatch, getState) => {
   const characters = assignCharacters(playerIds);
 
   db.ref(`games/${gameId}`).update({
-    status: 'PREQUEST',
+    status: 'TEAMMAKE',
     turnOrder,
     quest1,
     quest2,
@@ -85,7 +90,8 @@ export const startGame = () => (dispatch, getState) => {
 };
 
 export const updateGame = gameFromFirebase => {
-
+  console.log('from firebase: ', gameFromFirebase);
+  console.log(gameFromFirebase.turnOrder);
   const game = Object.assign({}, gameFromFirebase);
 
   // transform to array
@@ -93,7 +99,14 @@ export const updateGame = gameFromFirebase => {
   // transform from comma delimited string to array
   game.proposedTeam = !game.proposedTeam ? [] : game.proposedTeam.split(',');
   // transform from comma delimited string to array
-  game.turnOrder = !game.proposedTeam ? [] : game.turnOrder.split(',');
+  game.turnOrder = !game.turnOrder ? [] : game.turnOrder.split(',');
+  // transform each quest into quests array
+  game.quests = [ game.quest1, game.quest2, game.quest3, game.quest4, game.quest5 ];
+  delete game.quest1;
+  delete game.quest2;
+  delete game.quest3;
+  delete game.quest4;
+  delete game.quest5;
 
   return {
     type: UPDATE_GAME,
@@ -101,7 +114,53 @@ export const updateGame = gameFromFirebase => {
   };
 }
 
-const DEFAULT_GAME = {};
+export const takeOnQuest = playerId => (dispatch, getState) => {
+  const { game: { gameId, proposedTeam } } = getState();
+
+  // sanity checking
+  if (_.includes(proposedTeam, playerId))
+    throw new Error('Duplicate team member');
+
+  let newTeam = [...proposedTeam, playerId];
+  newTeam = newTeam.join(',');
+  db.ref(`games/${gameId}`).update({ proposedTeam: newTeam });
+}
+
+export const removeFromQuest= playerId => (dispatch, getState) => {
+  const { game: { gameId, proposedTeam } } = getState();
+
+  // sanity checking
+  if (!_.includes(proposedTeam, playerId))
+    throw new Error('Is not even on the team!');
+
+  let newTeam = proposedTeam.filter(id => id !== playerId);
+  newTeam = newTeam.join(',');
+  db.ref(`games/${gameId}`).update({ proposedTeam: newTeam });
+}
+
+const DEFAULT_GAME = {
+  hostId: '',
+  status: '', // enum: PREGAME, TEAMMAKE, TEAMVOTE, QUESTVOTE, GUESSMERLIN, ENDGAME
+  // mordred: false,
+  // morgana: false,
+  // percival: false,
+  // oberon: false,
+  currentQuest: 0, // idx in quests array
+  currentTurn: 0,  // idx in turnOrder array
+  gameId: '',
+  approves: 0,
+  rejects: 0,
+  succeedCards: 0,
+  failCards: 0,
+  goodScore: 0,
+  evilScore: 0,
+  rejectCounter: 0,
+  proposedTeam: '', // comma delimited playerIds
+  turnOrder: '',    // comma delimited playerIds
+  merlinGuess: '',
+  players: [],
+  quests: [{}, {}, {}, {}, {}]
+};
 
 export default function (state = DEFAULT_GAME, action) {
   switch (action.type) {

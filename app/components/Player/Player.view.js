@@ -1,9 +1,6 @@
 import React from 'react';
-
-const random = (minInclusive, maxExclusive) =>
-  Math.floor(Math.random() * (maxExclusive - minInclusive) + minInclusive);
-
-const ICONS = `../../../public/icons/`;
+import getAvatar from './getAvatar';
+import _ from 'lodash';
 
 const avatarStyle = {
   height: '100px',
@@ -12,40 +9,67 @@ const avatarStyle = {
   backgroundColor: 'lightblue'
 };
 
+const characterTurnStyle = {
+  color: 'forestgreen',
+  fontWeight: 600
+};
+
 export default ({
   user,
   player: {
     userId,
+    playerId,
     email,
-    character,
-    loyalty
-  }
-}) => {
-  const isMe = user.id === userId;
+    character
+  },
+  turnOrder,
+  currentTurn,
+  proposedTeam,
+  myTurn,
+  quests,
+  currentQuest,
+  status,
 
-  let avatar;
-  if (character === 'merlin')
-    avatar = `${ICONS}merlin.png`;
-  else if (character === 'assassin')
-    avatar = `${ICONS}assassin.png`;
-  else if (loyalty === 'good')
-    avatar = `${ICONS}loyal_${random(1, 6)}.png`;
-  else if (loyalty === 'evil')
-    avatar = `${ICONS}minion_${random(1, 4)}.png`;
+  // methods
+  takeOnQuest,
+  removeFromQuest
+}) => {
+
+  const isMe = user.id === userId;
+  const avatar = getAvatar(character);
+  const questMakerId = turnOrder[currentTurn];
+  const theirTurn = questMakerId === playerId;
+  const showTakeOnQuest = myTurn &&
+    !_.includes(proposedTeam, playerId) &&
+    status === 'TEAMMAKE' &&
+    proposedTeam.length < quests[currentQuest].requiredPlayers;
+  const showRemoveFromQuest = myTurn && _.includes(proposedTeam, playerId);
+
+  console.log(myTurn, status, quests[currentQuest])
 
   return (
     <div>
-      <h5>{ email }</h5>
+      <h5 style={theirTurn ? characterTurnStyle : null}>{ email }</h5>
       <div className="flex" key={userId}>
         {
           isMe ?
-          <img src={avatar} style={avatarStyle} /> : <div style={avatarStyle}></div>
+          <img src={avatar} style={avatarStyle} /> :
+          <div style={avatarStyle}></div>
         }
         <div className="flex flex-column">
-          <button className="btn btn-link">Guess Merlin</button>
-          {/*<button className="btn btn-link">Use Lady</button>*/}
-          <button className="btn btn-link">Take on Quest</button>
-          <button className="btn btn-link">Remove from Quest</button>
+          { false && <button className="btn btn-link">Guess Merlin</button> }
+          { showTakeOnQuest &&
+            <button
+              onClick={() => takeOnQuest(playerId)}
+              className="btn btn-link">
+              Take on Quest
+            </button> }
+          { showRemoveFromQuest &&
+            <button
+              onClick={() => removeFromQuest(playerId)}
+              className="btn btn-link">
+              Remove from Quest
+            </button> }
         </div>
       </div>
     </div>
