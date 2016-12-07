@@ -19,7 +19,7 @@ export default ({
   handleStartGame
 }) => {
 
-  const numPlayers = _.values(players).length;
+  const numPlayers = players.length;
   const userId = user && user.id;
   const unableToStart = checkNumPlayers(numPlayers);
 
@@ -60,21 +60,21 @@ export default ({
         </div>
       }
       {
-        status === 'ONQUEST' &&
+        status === 'QUESTVOTE' &&
         <div>
           <button className="btn btn-success" style={margin}>Succeed</button>
           <button className="btn btn-danger" style={margin}>Fail</button>
         </div>
       }
       {
-        status === 'VOTE' &&
+        status === 'TEAMVOTE' &&
         <div>
           <button className="btn btn-success" style={margin}>Approve</button>
           <button className="btn btn-warning" style={margin}>Reject</button>
         </div>
       }
       {
-        status === 'PREQUEST' &&
+        status === 'TEAMMAKE' &&
         <button className="btn btn-primary" style={margin}>Go on Quest</button>
       }
       </div>

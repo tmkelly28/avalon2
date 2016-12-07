@@ -5,7 +5,7 @@ import KnowledgeView from './Knowledge.view';
 export default connect(
   ({
     user,
-    game: { players }
+    game: { players=[] }
   }) => ({
     user,
     players

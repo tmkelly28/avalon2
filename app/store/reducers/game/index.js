@@ -1,4 +1,5 @@
 import { hashHistory } from 'react-router';
+import _ from 'lodash';
 import db from '../../../db';
 import { UPDATE_GAME } from '../../constants';
 import initializeQuests from './questHelper';
@@ -10,7 +11,7 @@ export const createGame = user => dispatch => {
   const key = ref.key;
   ref.set({
     hostId,
-    status: 'PREGAME', // enum: PREGAME, PREQUEST, ONQUEST, VOTE, GUESSMERLIN
+    status: 'PREGAME', // enum: PREGAME, TEAMMAKE, TEAMVOTE, QUESTVOTE, GUESSMERLIN, ENDGAME
     // mordred: false,
     // morgana: false,
     // percival: false,
@@ -24,7 +25,10 @@ export const createGame = user => dispatch => {
     failCards: 0,
     goodScore: 0,
     evilScore: 0,
-    rejectCounter: 0
+    rejectCounter: 0,
+    proposedTeam: '', // comma delimited playerIds
+    turnOrder: '',    // comma delimited playerIds
+    merlinGuess: ''
   });
   dispatch(joinGame(user, key));
   hashHistory.push(`rooms/${key}`);
@@ -80,7 +84,22 @@ export const startGame = () => (dispatch, getState) => {
     db.ref(`games/${gameId}/players/${character.playerId}`).update(character));
 };
 
-export const updateGame = game => ({ type: UPDATE_GAME, game });
+export const updateGame = gameFromFirebase => {
+
+  const game = Object.assign({}, gameFromFirebase);
+
+  // transform to array
+  game.players = _.values(game.players);
+  // transform from comma delimited string to array
+  game.proposedTeam = !game.proposedTeam ? [] : game.proposedTeam.split(',');
+  // transform from comma delimited string to array
+  game.turnOrder = !game.proposedTeam ? [] : game.turnOrder.split(',');
+
+  return {
+    type: UPDATE_GAME,
+    game
+  };
+}
 
 const DEFAULT_GAME = {};
 
