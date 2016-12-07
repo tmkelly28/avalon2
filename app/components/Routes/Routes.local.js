@@ -13,8 +13,7 @@ export default class RoutesLocal extends Component {
             email,
             id: uid
           }
-          this.props.receiveUser(gameUser)
-          hashHistory.push('/lobby');
+          this.props.receiveUser(gameUser);
         }
         else console.log('no user!');
       });

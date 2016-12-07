@@ -9,38 +9,27 @@ export default class LobbyLocal extends Component {
     super(props);
 
     this.state = {
-      gameId: ''
+      inputValue: ''
     };
 
     this.methods = {
       handleNewGame: this.handleNewGame.bind(this),
-      handleJoinGame: this.handleJoinGame.bind(this),
-      // handleStartGame: this.handleStartGame.bind(this)
-      getNumPlayers: this.getNumPlayers.bind(this),
-      handleGameIdInput: this.handleGameIdInput.bind(this),
+      handleChange: this.handleChange.bind(this),
       handleLogOut: this.handleLogOut.bind(this)
     };
   }
 
-  listenForPlayers(gameId) {
-    db.ref(`games/${gameId}`).on('value', (snapshot) => {
-      this.props.addPlayer(snapshot.val());
-    });
+  handleNewGame (user) {
+    this.props.createGame(user);
   }
 
-  handleNewGame(user) {
-    const gameId = this.props.createGame(user).game.id;
-    this.listenForPlayers(gameId);
+  handleJoinGame () {
+    this.props.joinGame(this.props.user, this.state.inputValue);
   }
 
-  handleJoinGame(user, gameId) {
-    this.props.updateGame(user, gameId);
-    this.listenForPlayers(gameId);
-  }
-
-  handleGameIdInput(evt) {
-    const value = evt.target.value;
-    this.setState({ gameId: value });
+  handleChange (evt) {
+    const inputValue = evt.target.value;
+    this.setState({ inputValue });
   }
 
   handleLogOut (evt) {
@@ -48,21 +37,7 @@ export default class LobbyLocal extends Component {
     this.props.logOut();
   }
 
-  getNumPlayers(gameObj) {
-    const playerIds = Object.keys(gameObj.players).length;
-    // if (!playerIds) return;
-    return playerIds;
-  }
-
-  // handleStartGame(gameId, playerCount) {
-  // 	this.props.startGame(gameId, playerCount);
-  // }
-
   render() {
-    return <LobbyView
-      {...this.props}
-      {...this.state}
-      {...this.methods}
-    />
+    return <LobbyView {...this.props} {...this.state} {...this.methods} />
   }
 }

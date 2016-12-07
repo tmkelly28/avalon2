@@ -10,8 +10,7 @@ export default class LoginLocal extends Component {
     this.state = {
       email: '',
       displayName: '',
-      pwd: '',
-      photoUrl: ''
+      pwd: ''
     };
 
     this.methods = {
@@ -39,10 +38,6 @@ export default class LoginLocal extends Component {
   }
 
   render () {
-    return <LoginView
-      {...this.state}
-      {...this.methods}
-      {...this.props}
-    />
+    return <LoginView {...this.state} {...this.methods} {...this.props} />
   }
 }

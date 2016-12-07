@@ -11,7 +11,9 @@ export default ({}) => {
         <button className="btn btn-primary" style={margin}>Start Game</button>
         <button className="btn btn-success" style={margin}>Succeed</button>
         <button className="btn btn-danger" style={margin}>Fail</button>
-        <button className="btn btn-warning" style={margin}>Go on Quest</button>
+        <button className="btn btn-primary" style={margin}>Go on Quest</button>
+        <button className="btn btn-success" style={margin}>Approve</button>
+        <button className="btn btn-warning" style={margin}>Reject</button>
       </div>
     </div>
   );

@@ -1,9 +1,12 @@
-'use strict';
-
 import { connect } from 'react-redux';
-import RoomLocal from './Room.local.js';
+import RoomLocal from './Room.local';
+import { updateGame } from '../../store/reducers/game';
 
 export default connect(
-	null,
-	null
+    (state, ownProps) => Object.assign({}, state, ownProps),
+    dispatch => ({
+      updateGame (update) {
+        dispatch(updateGame(update));
+      }
+    })
 )(RoomLocal);

@@ -1,3 +1,9 @@
+game = {
+  hostId,
+  players: {},
+  quests: {},
+  rules: {}
+}
 games: {
   1: {
     id: 1,

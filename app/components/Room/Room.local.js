@@ -2,9 +2,42 @@
 
 import React, { Component } from 'react';
 import RoomView from './Room.view.js';
+import db from '../../db';
+import store from '../../store';
 
 export default class RoomLocal extends Component {
-	render() {
-		return <RoomView />
-	}
+
+  constructor (props) {
+    super(props);
+
+    const { user } = this.props;
+    const { roomId } = this.props.params;
+
+    this.gamePath = `games/${roomId}`;
+    this.state = { user, roomId };
+    this.methods = {};
+  }
+
+  // changeHost () {
+  //   const roomId = this.props.params.roomId;
+  //   db.ref(`games/${roomId}`).update({
+  //     [`hostId`]: 'blah'
+  //   });
+  // }
+
+  componentDidMount () {
+    db.ref(this.gamePath).once('value').then(snap => {
+      console.log(snap.val())
+      this.props.updateGame(snap.val());
+    });
+
+    db.ref(this.gamePath).on('value', snap => {
+      const state = Object.assign({}, state, snap.val());
+      this.props.updateGame(snap.val());
+    });
+  }
+
+  render() {
+    return <RoomView {...this.state} {...this.props} {...this.methods} />
+  }
 }

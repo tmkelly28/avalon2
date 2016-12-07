@@ -1,1 +1,1 @@
-export { default } from './Room.connect.js';
+export { default } from './Room.connect';

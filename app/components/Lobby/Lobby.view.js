@@ -7,13 +7,11 @@ const margin = { margin: '1px' };
 
 export default ({
   user,
-  game,
-  gameId,
+  inputValue,
   handleNewGame,
   handleJoinGame,
-  handleGameIdInput,
-  handleLogOut,
-  getNumPlayers
+  handleChange,
+  handleLogOut
 }) => {
   return (
     <div id="lobby" className="container">
@@ -22,10 +20,10 @@ export default ({
         <input
           name="gameId"
           className="form-control"
-          value={gameId}
+          value={inputValue}
           type="text"
           placeholder="Enter game code to join"
-          onChange={handleGameIdInput}
+          onChange={handleChange}
         />
       </div>
       <div>
@@ -35,7 +33,12 @@ export default ({
           onClick={() => handleNewGame(user)} >
           Create New
         </button>
-        <Link to="/room/1" className="btn btn-primary" style={margin}>Join Game</Link>
+        <button
+          onClick={handleJoinGame}
+          className="btn btn-primary"
+          style={margin}>
+          Join Game
+        </button>
         <button
           onClick={handleLogOut}
           className="btn btn-secondary"

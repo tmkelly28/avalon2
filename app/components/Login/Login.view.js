@@ -8,8 +8,14 @@ export default ({
   handleChange,
   email,
   pwd,
-  displayName
+  displayName,
+  user
 }) => (
+  user.email ?
+  <div>
+    <h2>Welcome to Avalon</h2>
+    <Link className="btn btn-primary" to="/lobby">Proceed to Lobby</Link>
+  </div> :
   <form onSubmit={handleJoin}>
     <div className="form-group">
       <label htmlFor="email">Email</label>

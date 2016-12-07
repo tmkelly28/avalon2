@@ -1,4 +1,5 @@
 export const JOIN_GAME = 'JOIN_GAME';
+export const UPDATE_GAME = 'UPDATE_GAME';
 export const ADD_PLAYER_TO_GAME = 'ADD_PLAYER_TO_GAME';
 export const RECEIVE_GAMES = 'RECEIVE_GAMES';
 export const TOGGLE_OPTIONAL = 'TOGGLE_OPTIONAL';
