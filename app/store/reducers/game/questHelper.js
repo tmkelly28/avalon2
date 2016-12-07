@@ -1,26 +1,10 @@
 const DEFAULT_QUEST = {
   requiredPlayers: 0,   // === numberOfSuccessesNeeded
   numberOfFailsNeeded: 0,
-  successVotes: 0,
-  failVotes: 0,
-  teamFails: 0,
-  result: '' // enum: SUCCESS, FAIL
+  result: '' // enum: success, failure
 };
 
-// const DEFAULT_QUESTS = {
-//   1: DEFAULT_QUEST,
-//   2: DEFAULT_QUEST,
-//   3: DEFAULT_QUEST,
-//   4: DEFAULT_QUEST,
-//   5: DEFAULT_QUEST,
-//   currentQuest: 1,
-//   currentLeader: 0,
-//   loyalScore: 0,
-//   evilScore: 0
-// };
-
-export const initializeQuests = (numberOfPlayers) => {
-  const fiveQuests = [1, 2, 3, 4, 5];
+export default function initializeQuests (numberOfPlayers) {
   const _QUESTS = [1, 2, 3, 4, 5];
 
   return _QUESTS.map(i => {

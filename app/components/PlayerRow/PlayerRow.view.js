@@ -8,7 +8,11 @@ export default ({
 }) => {
   return (
     <div className="row flex justify-between" style={margin}>
-      { players.map(player => <Player player={player} />) }
+      { players.map(player =>
+        <div key={player.userId}>
+          <Player player={player} />
+        </div>
+      )}
     </div>
   );
 }

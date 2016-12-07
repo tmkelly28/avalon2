@@ -1,7 +1,8 @@
 import { hashHistory } from 'react-router';
 import db from '../../../db';
 import { UPDATE_GAME } from '../../constants';
-import { initializeQuests } from './questHelper';
+import initializeQuests from './questHelper';
+import assignCharacters from './charactersHelper';
 
 export const createGame = user => dispatch => {
   const hostId = user.id;
@@ -14,8 +15,16 @@ export const createGame = user => dispatch => {
     // morgana: false,
     // percival: false,
     // oberon: false,
-    currentQuest: 0,
-    gameId: key
+    currentQuest: 1,
+    currentTurn: 0,
+    gameId: key,
+    approves: 0,
+    rejects: 0,
+    succeedCards: 0,
+    failCards: 0,
+    goodScore: 0,
+    evilScore: 0,
+    rejectCounter: 0
   });
   dispatch(joinGame(user, key));
   hashHistory.push(`rooms/${key}`);
@@ -43,8 +52,9 @@ export const startGame = () => (dispatch, getState) => {
     }
   } = getState();
 
+  const playerIds = _.keys(players);
   const numPlayers = _.values(players).length;
-  const turnOrder = _.shuffle(_.keys(players)).join(',');
+  const turnOrder = _.shuffle(playerIds).join(',');
 
   const [
     quest1,
@@ -54,9 +64,9 @@ export const startGame = () => (dispatch, getState) => {
     quest5
   ]= initializeQuests(numPlayers);
 
+  const characters = assignCharacters(playerIds);
+
   db.ref(`games/${gameId}`).update({
-    currentQuest: 1,
-    currentTurn: 0,
     status: 'PREQUEST',
     turnOrder,
     quest1,
@@ -65,6 +75,9 @@ export const startGame = () => (dispatch, getState) => {
     quest4,
     quest5
   });
+
+  characters.forEach(character =>
+    db.ref(`games/${gameId}/players/${character.playerId}`).update(character));
 };
 
 export const updateGame = game => ({ type: UPDATE_GAME, game });

@@ -1,1 +1,1 @@
-export { default } from './Quests.view';
+export { default } from './Quests.connect';

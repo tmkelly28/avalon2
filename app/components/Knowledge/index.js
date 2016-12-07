@@ -1,1 +1,1 @@
-export { default } from './Knowledge.view';
+export { default } from './Knowledge.connect';
