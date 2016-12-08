@@ -1,5 +1,3 @@
-'use strict';
-
 import React, { Component } from 'react';
 import RoomView from './Room.view.js';
 import db from '../../db';
@@ -17,7 +15,6 @@ export default class RoomLocal extends Component {
     this.state = { user, roomId };
     this.methods = {};
   }
-
 
   componentDidMount () {
     db.ref(this.gamePath).once('value').then(snap => {

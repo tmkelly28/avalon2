@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import CommandsLocal from './Commands.local';
-import { startGame } from '../../store/reducers/game';
+import { startGame, proposeTeam } from '../../store/reducers/game';
 
 export default connect(
   ({
@@ -9,18 +9,29 @@ export default connect(
       hostId,
       players,
       status,
-      gameId
+      gameId,
+      turnOrder,
+      currentTurn,
+      proposedTeam,
+      quests,
+      currentQuest
     }
   }) => ({
     user,
     hostId,
     players,
     status,
-    gameId
+    gameId,
+    turnOrder,
+    currentTurn,
+    proposedTeam,
+    quests,
+    currentQuest
   }),
   dispatch => ({
-    startGame (numPlayers, gameId) {
-      dispatch(startGame(numPlayers, gameId));
-    }
+    startGame: (numPlayers, gameId) =>
+      dispatch(startGame(numPlayers, gameId)),
+    handleProposeTeam: () =>
+      dispatch(proposeTeam())
   })
 )(CommandsLocal);

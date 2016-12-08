@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-
+import { isMyTurn } from '../utils';
 const margin = { margin: '5px' };
 const hide = { display: 'none' };
 
@@ -10,18 +10,27 @@ export default ({
   players,
   status,
   hostId,
-  mordred,
-  morgana,
-  oberon,
-  percival,
+  // mordred,
+  // morgana,
+  // oberon,
+  // percival,
   user,
+  turnOrder,
+  currentTurn,
+  proposedTeam,
+  quests,
+  currentQuest,
   handleChange,
-  handleStartGame
+  handleStartGame,
+  handleProposeTeam
 }) => {
 
   const numPlayers = players.length;
   const userId = user && user.id;
   const unableToStart = checkNumPlayers(numPlayers);
+  const questMakerId = turnOrder[currentTurn];
+  const myTurn = isMyTurn(players, user, questMakerId);
+  const teamIsFull = quests[currentQuest].requiredPlayers === proposedTeam.length;
 
   return (
     <div>
@@ -74,8 +83,8 @@ export default ({
         </div>
       }
       {
-        status === 'TEAMMAKE' &&
-        <button className="btn btn-primary" style={margin}>Go on Quest</button>
+        status === 'TEAMMAKE' && myTurn && teamIsFull &&
+        <button className="btn btn-primary" style={margin} onClick={handleProposeTeam}>Propose Team</button>
       }
       </div>
     </div>

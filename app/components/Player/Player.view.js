@@ -14,6 +14,18 @@ const characterTurnStyle = {
   fontWeight: 600
 };
 
+const sigilStyle = {
+  height: '25px',
+  width: '25px',
+  borderRadius: '50%'
+};
+
+const ICONS = '../../../public/icons';
+const sigil = `${ICONS}/sigil.png`;
+const crown = `${ICONS}/crown.png`;
+const approve = `${ICONS}/approve.png`;
+const reject = `${ICONS}/reject.png`;
+
 export default ({
   user,
   player: {
@@ -22,10 +34,9 @@ export default ({
     email,
     character
   },
-  turnOrder,
-  currentTurn,
   proposedTeam,
   myTurn,
+  questMakerId,
   quests,
   currentQuest,
   status,
@@ -37,25 +48,21 @@ export default ({
 
   const isMe = user.id === userId;
   const avatar = getAvatar(character);
-  const questMakerId = turnOrder[currentTurn];
   const theirTurn = questMakerId === playerId;
-  const showTakeOnQuest = myTurn &&
-    !_.includes(proposedTeam, playerId) &&
-    status === 'TEAMMAKE' &&
-    proposedTeam.length < quests[currentQuest].requiredPlayers;
-  const showRemoveFromQuest = myTurn && _.includes(proposedTeam, playerId);
-
-  console.log(myTurn, status, quests[currentQuest])
+  const isOnQuest = _.includes(proposedTeam, playerId);
+  const roomForMoreOnQuest = proposedTeam.length < quests[currentQuest].requiredPlayers;
+  const showTakeOnQuest = myTurn && !isOnQuest && status === 'TEAMMAKE' && roomForMoreOnQuest;
+  const showRemoveFromQuest = myTurn && isOnQuest;
 
   return (
     <div>
-      <h5 style={theirTurn ? characterTurnStyle : null}>{ email }</h5>
+      <div className="flex items-center">
+        <h5 style={theirTurn ? characterTurnStyle : null}>{ email }</h5>
+      </div>
       <div className="flex" key={userId}>
-        {
-          isMe ?
+        { isMe ?
           <img src={avatar} style={avatarStyle} /> :
-          <div style={avatarStyle}></div>
-        }
+          <div style={avatarStyle}></div> }
         <div className="flex flex-column">
           { false && <button className="btn btn-link">Guess Merlin</button> }
           { showTakeOnQuest &&
@@ -70,6 +77,10 @@ export default ({
               className="btn btn-link">
               Remove from Quest
             </button> }
+          <div className="flex items-center">
+            { isOnQuest && <img className="ml1" src={sigil} style={sigilStyle} /> }
+            { theirTurn && <img className="ml1" src={crown} style={sigilStyle} /> }
+          </div>
         </div>
       </div>
     </div>

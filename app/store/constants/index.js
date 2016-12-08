@@ -12,3 +12,27 @@ export const VOTE_ON_TEAM = 'VOTE_ON_TEAM';
 export const SCORE_TEAM_VOTES = 'SCORE_TEAM_VOTES';
 export const VOTE_ON_QUEST = 'VOTE_ON_QUEST';
 export const SCORE_AND_END_QUEST = 'SCORE_AND_END_QUEST';
+
+export const DEFAULT_GAME = {
+  hostId: '',
+  status: '', // enum: PREGAME, TEAMMAKE, TEAMVOTE, QUESTVOTE, GUESSMERLIN, ENDGAME
+  // mordred: false,
+  // morgana: false,
+  // percival: false,
+  // oberon: false,
+  currentQuest: 0, // idx in quests array
+  currentTurn: 0,  // idx in turnOrder array
+  gameId: '',
+  approves: 0,
+  rejects: 0,
+  succeedCards: 0,
+  failCards: 0,
+  goodScore: 0,
+  evilScore: 0,
+  rejectCounter: 0,
+  proposedTeam: '', // comma delimited playerIds
+  turnOrder: '',    // comma delimited playerIds
+  merlinGuess: '',
+  players: [],
+  quests: [{}, {}, {}, {}, {}]
+};

@@ -1,7 +1,7 @@
 'use strict';
 
 // initialize Firebase connection
-import db from  './db';
+import db from './db';
 import store from './store';
 
 import React from 'react';

@@ -1,8 +1,5 @@
-'use strict';
-
 import React, { Component } from 'react';
 import LobbyView from './Lobby.view.js';
-import db from '../../db';
 
 export default class LobbyLocal extends Component {
   constructor(props) {
