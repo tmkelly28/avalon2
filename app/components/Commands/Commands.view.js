@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { isMyTurn } from '../utils';
+
 const margin = { margin: '5px' };
 const hide = { display: 'none' };
 
@@ -39,6 +40,7 @@ export default ({
       {
         hostId === userId && status === 'PREGAME' &&
         <div>
+          {/*
           <div style={hide}>
             <div className="checkbox">
               <label>
@@ -65,6 +67,7 @@ export default ({
               </label>
             </div>
           </div>
+          */}
           <button className="btn btn-primary" style={margin} disabled={false} onClick={handleStartGame}>Start Game</button>
         </div>
       }

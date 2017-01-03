@@ -36,3 +36,9 @@ export const DEFAULT_GAME = {
   players: [],
   quests: [{}, {}, {}, {}, {}]
 };
+
+export const DEFAULT_QUEST = {
+  requiredPlayers: 0,   // === numberOfSuccessesNeeded
+  numberOfFailsNeeded: 0,
+  result: '' // enum: success, failure
+};

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { UPDATE_GAME, DEFAULT_GAME } from '../../constants';
+import { UPDATE_GAME, DEFAULT_GAME, DEFAULT_QUEST } from '../../constants';
 
 export const updateGame = gameFromFirebase => {
   const game = Object.assign({}, gameFromFirebase);
@@ -11,7 +11,14 @@ export const updateGame = gameFromFirebase => {
   // transform from comma delimited string to array
   game.turnOrder = !game.turnOrder ? [] : game.turnOrder.split(',');
   // transform each quest into quests array
-  game.quests = [ game.quest1, game.quest2, game.quest3, game.quest4, game.quest5 ];
+  game.quests = [
+    game.quest1 || DEFAULT_QUEST,
+    game.quest2 || DEFAULT_QUEST,
+    game.quest3 || DEFAULT_QUEST,
+    game.quest4 || DEFAULT_QUEST,
+    game.quest5 || DEFAULT_QUEST
+  ];
+
   delete game.quest1;
   delete game.quest2;
   delete game.quest3;

@@ -1,8 +1,4 @@
-const DEFAULT_QUEST = {
-  requiredPlayers: 0,   // === numberOfSuccessesNeeded
-  numberOfFailsNeeded: 0,
-  result: '' // enum: success, failure
-};
+import { DEFAULT_QUEST } from '../../../constants';
 
 export default function initializeQuests (numberOfPlayers) {
   const _QUESTS = [1, 2, 3, 4, 5];

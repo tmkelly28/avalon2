@@ -25,7 +25,8 @@ export default user => dispatch => {
     rejectCounter: 0,
     proposedTeam: '',
     turnOrder: '',
-    merlinGuess: ''
+    merlinGuess: '',
+    quest1: {}
   });
   dispatch(joinGame(user, key));
   hashHistory.push(`rooms/${key}`);
