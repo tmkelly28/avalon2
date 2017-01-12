@@ -68,7 +68,7 @@ export default ({
             </div>
           </div>
           */}
-          <button className="btn btn-primary" style={margin} disabled={false} onClick={handleStartGame}>Start Game</button>
+          <button className="btn btn-primary" style={margin} disabled={unableToStart} onClick={handleStartGame}>Start Game</button>
         </div>
       }
       {
