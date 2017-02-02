@@ -36,6 +36,9 @@ export { default as joinGame } from './thunks/joinGame';
 export { default as removeFromQuest } from './thunks/removeFromQuest';
 export { default as startGame } from './thunks/startGame';
 export { default as takeOnQuest } from './thunks/takeOnQuest';
+export { default as proposeTeam } from './thunks/proposeTeam';
+export { default as approveTeam } from './thunks/approveTeam';
+export { default as rejectTeam } from './thunks/rejectTeam';
 
 export default function (state = DEFAULT_GAME, action) {
   switch (action.type) {

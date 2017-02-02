@@ -23,7 +23,9 @@ export default ({
   currentQuest,
   handleChange,
   handleStartGame,
-  handleProposeTeam
+  handleProposeTeam,
+  handleApproveTeam,
+  handleRejectTeam
 }) => {
 
   const numPlayers = players.length;
@@ -81,8 +83,8 @@ export default ({
       {
         status === 'TEAMVOTE' &&
         <div>
-          <button className="btn btn-success" style={margin}>Approve</button>
-          <button className="btn btn-warning" style={margin}>Reject</button>
+          <button className="btn btn-success" style={margin} onClick={handleApproveTeam}>Approve</button>
+          <button className="btn btn-warning" style={margin} onClick={handleRejectTeam}>Reject</button>
         </div>
       }
       {
